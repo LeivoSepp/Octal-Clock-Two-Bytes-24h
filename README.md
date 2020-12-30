@@ -1,7 +1,7 @@
-# Octal Clock Two Bytes 24h
+# Two Bytes Octal Clock 24h
 This two bytes octal clock is used by the Paradox Security systems.
 
-This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering.</br>
+This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering project.</br>
 https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput </br>
 
 Most difficult task was in this reverse engineering project to figure out how the clock is working. 
@@ -28,6 +28,9 @@ TimeSpan time = new TimeSpan(hour, minute, 0);
 DateTime dateTime = DateTime.Now.Date.Add(time);
 Console.WriteLine($"{dateTime:t} ");
 ```
+<p></p>
+
+![Output](Readme/output.png)
 
 ### Resources used during the project
 Working with octal, byte, hex numbers.

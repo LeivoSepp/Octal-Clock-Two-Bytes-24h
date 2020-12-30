@@ -9,7 +9,7 @@ namespace OctalClockTwoBytes24h
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Octal clock reverse engineering used in Paradox Security Systems");
             OctalClock();
             Console.ReadLine();
         }
