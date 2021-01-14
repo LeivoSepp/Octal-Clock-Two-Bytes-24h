@@ -2,15 +2,20 @@
 This two bytes octal clock is used by the Paradox Security systems.
 
 This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering project.</br>
-https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput </br>
+https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput 
 
-Most difficult task was in this reverse engineering project to figure out how the clock is working. 
-The outcome is completely useless as it reads just the time reported by Paradox panel (24h format). 
-It is useless because after integration with another system the clock is managed anyway by Rasperry PI.
-Still, this was a great mathemathical challenge to solve clock. 
+Most difficult task in this reverse engineering project was to figure out how the clock is working. 
+Initially I was thinking that bytes 3-4 from Paradox doesn't mean anything as they changed with no pattern at all. 
+Somehow I started to look also a watch and I saw that these bytes are changing in every minute.
 
-When I started to build the clock generator I realized that it is based on octal numeric system. 
-Huhh, crazy thing. Do you know what is Octal numeric system? The numbers are going up only to 7 and after that comes 10. 
+The actual outcome of this task is completely useless as it reads just the time reported by Paradox panel (24h format). 
+After integration with Home Automation the clock is managed anyway by Rasperry PI and will taken and sychronized from the internet.
+
+I started to solve it as this kind of unknown things are very interesting. I know that these two bytes has to be a clock but I dont know how. 
+To solve this mathemathical clock challenge the first task was to build the clock generator.
+
+During the calculator building I realized that the solution is based on octal numeric system. Huhh, crazy thing. 
+Do you know what is Octal numeric system? The numbers are going up only to 7 and after that comes 10.
 >Octal 0,1,2,3,4,5,6,7,10,11,12,13,14,15,16,17 ...
 
 Some time examples:
@@ -18,7 +23,7 @@ Some time examples:
 * time 8:00 is in Octal 100 and in Hex 0x08.
 * time 20:00 is in Otal 240 and in Hex 0xA0.
 
-The final solution is a genius as it has just two lines of code (hours and minutes) with little mathematics. </br>
+The final solution is a geniusly simple as it has just two lines of code (hours and minutes) with a little mathematics. 
 
 ```c#
 int hour = msbDec / 8;
@@ -28,12 +33,12 @@ TimeSpan time = new TimeSpan(hour, minute, 0);
 DateTime dateTime = DateTime.Now.Date.Add(time);
 Console.WriteLine($"{dateTime:t} ");
 ```
-<p></p>
 
 ![Output](Readme/output.png)
 
 ### Resources used during the project
 Working with octal, byte, hex numbers.
+
 These links were used to build the octal generator for a clock reverse engineering.</br>
 https://stackoverflow.com/questions/34362859/add-two-octal-numbers-directly-without-converting-to-decimal </br>
 https://stackoverflow.com/questions/3781764/how-can-we-convert-binary-number-into-its-octal-number-using-c </br>
