@@ -1,6 +1,6 @@
 # Two Bytes Octal Clock 24h
 This two bytes octal clock is used by the Paradox Security systems.
-
+![Paradox](Readme/Paradox.png)
 This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering project.</br>
 https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput 
 
