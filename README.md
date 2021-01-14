@@ -1,6 +1,17 @@
 # Two Bytes Octal Clock 24h
 This two bytes octal clock is used by the Paradox Security systems.
 ![Paradox](Readme/Paradox.png)
+Have you heard about octal numeral system? What about clock based on octal numeral system?
+
+Daily basis we are using decimal numeral system. Computers are using binary and the hexadecimal system is used to make it easier to represent.
+During the one week holiday I was engaged in reverse engineering of the home Paradox Security system.
+I found myself solving the surprising problem of ow the Paradox time is is working. 
+
+Reverse engineering found that the clock is based on the octal numeral system. To get there and understand all of this 
+I had to acquire the ability to calculate simultaneously in all four numberal systems. 
+
+Thanks Paradox for this challenge. The math is really cool. Learn it and you will understand it.
+
 This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering project.</br>
 https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput 
 
