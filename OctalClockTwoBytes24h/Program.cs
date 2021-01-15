@@ -16,7 +16,7 @@ namespace OctalClockTwoBytes24h
 
         static async void OctalClock()
         {
-            int msb = 0;
+            int msb8 = 0;
             byte lsb = 0;
             int i = 0;
             bool FirstLoop = true;
@@ -28,25 +28,31 @@ namespace OctalClockTwoBytes24h
                     {
                         if (i == 0)
                         {
-                            msb = octal_sum(msb, 5);
-                            if (msb == 300)
-                                msb = 0;
+                            msb8 = octal_sum(msb8, 5);
+                            if (msb8 == 300)
+                                msb8 = 0;
                         }
                         else
                         {
-                            msb = octal_sum(msb, 1);
+                            msb8 = octal_sum(msb8, 1);
                         }
                     }
                 }
-                int msbDec = Convert.ToInt32(msb.ToString(), 8); //convert from octal to decimal
+                int msb = Convert.ToInt32(msb8.ToString(), 8); //convert from octal to decimal
 
-                //calculate minute and hour
-                int hour = msbDec / 8;
-                int minute = msbDec % 8 * 16 + lsb / 16;
+                var msbBin = Convert.ToString(msb, 2);
+                var lsbBin = Convert.ToString(lsb, 2);
 
-                TimeSpan time = new TimeSpan(hour, minute, 0);
-                DateTime dateTime = DateTime.Now.Date.Add(time);
-                Console.WriteLine($"{dateTime:t} ");
+                //getting minute and hour with shift operations
+                int msbShift = msb << 4;
+                int tHour = msb >> 3;
+                int tMinute = (msbShift & 32) + (msbShift & 16) + (lsb >> 4);
+
+                //getting minute and hour in another mathemathical way
+                int hour = msb / 8;
+                int minute = msb % 8 * 16 + lsb / 16;
+
+                Console.WriteLine($"{(tHour < 10 ? $"0{tHour}" : $"{tHour}")}:{(tMinute < 10 ? $"0{tMinute}" : $"{tMinute}")} msb-lsb: {Convert.ToString(msb, 2).PadLeft(8, '0')}-{Convert.ToString(lsb, 2).PadLeft(8, '0')}");
 
                 if (lsb >= 240 || i >= 59)
                 {
