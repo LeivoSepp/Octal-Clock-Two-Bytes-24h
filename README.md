@@ -81,7 +81,7 @@ Lets look it like 16bit number.
 * 13-16 bits are zeros.
 
 |0000 |0000 | 0000 | 0000 |
-|-|-|
+|-|-|-|-|
 |HHHH |H0mm | mmmm | 0000 |
 
 Graphical view of this.
