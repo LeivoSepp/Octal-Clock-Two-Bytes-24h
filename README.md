@@ -66,8 +66,9 @@ Some time examples:
 The final solution is a geniusly simple as it has just two lines of code (hours and minutes) with a little mathematics. 
 
 ```c#
-int hour = msbDec / 8;
-int minute = msbDec % 8 * 16 + lsb / 16;
+//getting minute and hour in mathemathical way
+int hour = Byte1 / 8;
+int minute = Byte1 % 8 * 16 + Byte2 / 16;
 ```
 
 #### 2. Traditional binary shift operations
