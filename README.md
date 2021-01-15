@@ -86,7 +86,7 @@ Lets look it like 16bit number.
 
 Graphical view of this.
 
-<img src="Readme/binary_solution.png" alt="drawing" width="200"/>
+<img src="Readme/binary_solution1.png" alt="drawing" width="200"/>
 
 Getting hours and minutes by the traditional binary shift operations.
 ```c#
