@@ -69,7 +69,7 @@ Getting hours and minutes by the traditional binary shift operations.
 ```c#
 //getting minute and hour with shift operations
 int tHour = Byte1 >> 3;
-int tMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
+int tMinute = ((Byte1 & 3) << 4) + (Byte2 >> 4);
 ```
 Another way is to create one 16 bit number and then shift the clock from that number.
 ```c#

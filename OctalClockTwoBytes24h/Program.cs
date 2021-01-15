@@ -42,7 +42,7 @@ namespace OctalClockTwoBytes24h
 
                 //getting minute and hour with shift operations
                 int bHour = Byte1 >> 3;
-                int bMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
+                int bMinute = ((Byte1 & 3) << 4) + (Byte2 >> 4);
 
                 //creating one 16 bit number and then reading clock from that number
                 int twoBytes = (Byte1 << 8) + Byte2;
