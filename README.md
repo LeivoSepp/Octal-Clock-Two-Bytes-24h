@@ -91,9 +91,8 @@ Graphical view of this.
 Getting hours and minutes by the traditional binary shift operations.
 ```c#
 //getting minute and hour with shift operations
-int b1Shift = Byte1 << 4;
 int tHour = Byte1 >> 3;
-int tMinute = (b1Shift & 32) + (b1Shift & 16) + (Byte2 >> 4);
+int tMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
 ```
 
 Output of this program.

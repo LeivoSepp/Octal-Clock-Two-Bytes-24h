@@ -41,9 +41,8 @@ namespace OctalClockTwoBytes24h
                 int Byte1 = Convert.ToInt32(msb8.ToString(), 8); //convert from octal to decimal
 
                 //getting minute and hour with shift operations
-                int b1Shift = Byte1 << 4;
                 int tHour = Byte1 >> 3;
-                int tMinute = (b1Shift & 32) + (b1Shift & 16) + (Byte2 >> 4);
+                int tMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
 
                 //getting minute and hour in another mathemathical way
                 int hour = Byte1 / 8;
