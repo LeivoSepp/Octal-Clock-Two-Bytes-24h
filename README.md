@@ -1,26 +1,100 @@
 # Two Bytes Octal Clock 24h
 This two bytes octal clock is used by the Paradox Security systems.
 ![Paradox](Readme/Paradox.png)
-Have you heard about octal numeral system? What about clock based on octal numeral system?
 
-Daily basis we are using decimal numeral system. Computers are using binary and the hexadecimal system is used to make it easier to represent. Recently I was engaged in reverse engineering of the Paradox Security system. 
-I found myself solving surprising problem that how the Paradox time is working.
+### Two bytes for a clock
 
-Reverse engineering found that the clock is based on the octal numeral system. To get there and understand all of this I had to acquire the ability to calculate simultaneously in all four numeral systems.
+These two bytes has to be a clock but I didn't know how. 
 
-Thanks, Paradox for this challenge. The math is really cool. Learn it and you will understand it.
+Byte1 : Byte2 = 0000 0000 : 0000 0000
 
-This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering project.</br>
-https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput 
+### Algorithm
 
-Most difficult task in this reverse engineering project was to figure out how the clock is working. 
-Initially I was thinking that bytes 3-4 from Paradox doesn't mean anything as they changed with no pattern at all. 
-Somehow I started to look also a watch and I saw that these bytes are changing in every minute.
+1. Byte2 is increasing in every minute by 16 bit. <br>
+One way to show it is to use octal numeric system by adding 20 in every minute. (OCT) 00 20 40 60 100
+2. When Byte2 reach it's maximum (OCT) 360 then one bit is added to Byte1. <br>
+1 byte added into Byte1 in every 16 minute. One hour is: Byte1 increased by 3 bit and Byte2 increased by 176 bit.
+3. Every hour the Byte1 will increase by 8 bit or by 10 (OCT). (OCT) 0h - 0; 1h - 10; 2h - 20; .. 8h - 100.
 
-The actual outcome of this task is completely useless as it reads just the time reported by Paradox panel (24h format). 
-After integration with Home Automation the clock is managed anyway by Rasperry PI and will taken and sychronized from the internet.
+|Time|Byte1-Byte2|
+|---|---|
+| 00:00 | 00000000-00000000 |
+| 00:01 | 00000000-00010000 |
+| 00:02 | 00000000-00100000 |
+| 00:03 | 00000000-00110000 |
+| 00:04 | 00000000-01000000 |
+| 00:05 | 00000000-01010000 |
+| 00:06 | 00000000-01100000 |
+| 00:07 | 00000000-01110000 |
+| 00:08 | 00000000-10000000 |
+| 00:09 | 00000000-10010000 |
+| 00:10 | 00000000-10100000 |
+| 00:11 | 00000000-10110000 |
+| 00:12 | 00000000-11000000 |
+| 00:13 | 00000000-11010000 |
+| 00:14 | 00000000-11100000 |
+| 00:15 | 00000000-11110000 |
+| 00:16 | 00000001-00000000 |
+| 00:17 | 00000001-00010000 |
+| 00:18 | 00000001-00100000 |
+| 00:19 | 00000001-00110000 |
+| 00:20 | 00000001-01000000 |
+| 00:21 | 00000001-01010000 |
+| 00:22 | 00000001-01100000 |
+| 00:23 | 00000001-01110000 |
+| 00:24 | 00000001-10000000 |
+| 00:25 | 00000001-10010000 |
+| 00:26 | 00000001-10100000 |
+| 00:27 | 00000001-10110000 |
+| 00:28 | 00000001-11000000 |
+| 00:29 | 00000001-11010000 |
+| 00:30 | 00000001-11100000 |
+| 00:31 | 00000001-11110000 |
+| 00:32 | 00000010-00000000 |
+| 00:33 | 00000010-00010000 |
+| 00:34 | 00000010-00100000 |
+| 00:35 | 00000010-00110000 |
+| 00:36 | 00000010-01000000 |
+| 00:37 | 00000010-01010000 |
+| 00:38 | 00000010-01100000 |
+| 00:39 | 00000010-01110000 |
+| 00:40 | 00000010-10000000 |
+| 00:41 | 00000010-10010000 |
+| 00:42 | 00000010-10100000 |
+| 00:43 | 00000010-10110000 |
+| 00:44 | 00000010-11000000 |
+| 00:45 | 00000010-11010000 |
+| 00:46 | 00000010-11100000 |
+| 00:47 | 00000010-11110000 |
+| 00:48 | 00000011-00000000 |
+| 00:49 | 00000011-00010000 |
+| 00:50 | 00000011-00100000 |
+| 00:51 | 00000011-00110000 |
+| 00:52 | 00000011-01000000 |
+| 00:53 | 00000011-01010000 |
+| 00:54 | 00000011-01100000 |
+| 00:55 | 00000011-01110000 |
+| 00:56 | 00000011-10000000 |
+| 00:57 | 00000011-10010000 |
+| 00:58 | 00000011-10100000 |
+| 00:59 | 00000011-10110000 |
+| 01:00 | 00001000-00000000 |
+| 01:01 | 00001000-00010000 |
+| 01:02 | 00001000-00100000 |
+| 01:03 | 00001000-00110000 |
+| 01:04 | 00001000-01000000 |
+|...|...|
+| 23:59 | 10111011-10110000 |
 
-I started to solve it as this kind of unknown things are very interesting. I know that these two bytes has to be a clock but I dont know how. 
+### Two Solutions
+There is a two different solutions. 
+1. Mathemathical calculation based on octal numeric system. This was an initial solution.
+2. Using traditional shift-operations in binary numbers. 
+
+#### 1. Mathemathical
+Reverse engineering found that the clock is based on the octal numeral system. If you look at the solution 2 then you will see that this is not true.
+Anyway, this is how I started. To understand all of the complexity I had to acquire the ability to calculate simultaneously in all four numeral systems.
+
 To solve this mathemathical clock challenge the first task was to build the clock generator.
 
 During the calculator building I realized that the solution is based on octal numeric system. Huhh, crazy thing. 
@@ -37,13 +111,29 @@ The final solution is a geniusly simple as it has just two lines of code (hours 
 ```c#
 int hour = msbDec / 8;
 int minute = msbDec % 8 * 16 + lsb / 16;
-
-TimeSpan time = new TimeSpan(hour, minute, 0);
-DateTime dateTime = DateTime.Now.Date.Add(time);
-Console.WriteLine($"{dateTime:t} ");
 ```
 
-![Output](Readme/output.png)
+#### 2. Traditional binary shift
+Look at the numbers in binary format. The clock is much simpler than it was at the beginning.
+
+<img src="Readme/binary_solution.png" alt="drawing" width="200"/>
+
+```c#
+//getting minute and hour with shift operations
+int b1Shift = Byte1 << 4;
+int tHour = Byte1 >> 3;
+int tMinute = (b1Shift & 32) + (b1Shift & 16) + (Byte2 >> 4);
+```
+
+Output of this program.
+
+![Output1](Readme/output1.png)
+## Thanks, Paradox
+
+Thanks, Paradox for this challenge. Math is cool. Learn it and you will understand it.
+
+This project is related directly with my Paradox Security System Spectra 1738 serial output reverse engineering project.</br>
+https://github.com/LeivoSepp/Paradox-Spectra-1738-SerialOutput 
 
 ### Resources used during the project
 Working with octal, byte, hex numbers.

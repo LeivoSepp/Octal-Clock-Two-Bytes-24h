@@ -17,14 +17,14 @@ namespace OctalClockTwoBytes24h
         static async void OctalClock()
         {
             int msb8 = 0;
-            byte lsb = 0;
+            byte Byte2 = 0;
             int i = 0;
             bool FirstLoop = true;
             while (true)
             {
                 if (!FirstLoop)
                 {
-                    if (lsb == 0)
+                    if (Byte2 == 0)
                     {
                         if (i == 0)
                         {
@@ -38,32 +38,29 @@ namespace OctalClockTwoBytes24h
                         }
                     }
                 }
-                int msb = Convert.ToInt32(msb8.ToString(), 8); //convert from octal to decimal
-
-                var msbBin = Convert.ToString(msb, 2);
-                var lsbBin = Convert.ToString(lsb, 2);
+                int Byte1 = Convert.ToInt32(msb8.ToString(), 8); //convert from octal to decimal
 
                 //getting minute and hour with shift operations
-                int msbShift = msb << 4;
-                int tHour = msb >> 3;
-                int tMinute = (msbShift & 32) + (msbShift & 16) + (lsb >> 4);
+                int b1Shift = Byte1 << 4;
+                int tHour = Byte1 >> 3;
+                int tMinute = (b1Shift & 32) + (b1Shift & 16) + (Byte2 >> 4);
 
                 //getting minute and hour in another mathemathical way
-                int hour = msb / 8;
-                int minute = msb % 8 * 16 + lsb / 16;
+                int hour = Byte1 / 8;
+                int minute = Byte1 % 8 * 16 + Byte2 / 16;
 
-                Console.WriteLine($"{(tHour < 10 ? $"0{tHour}" : $"{tHour}")}:{(tMinute < 10 ? $"0{tMinute}" : $"{tMinute}")} msb-lsb: {Convert.ToString(msb, 2).PadLeft(8, '0')}-{Convert.ToString(lsb, 2).PadLeft(8, '0')}");
+                Console.WriteLine($"| {(tHour < 10 ? $"0{tHour}" : $"{tHour}")}:{(tMinute < 10 ? $"0{tMinute}" : $"{tMinute}")} | {Convert.ToString(Byte1, 2).PadLeft(8, '0')}-{Convert.ToString(Byte2, 2).PadLeft(8, '0')} |");
 
-                if (lsb >= 240 || i >= 59)
+                if (Byte2 >= 240 || i >= 59)
                 {
-                    lsb = 0;
+                    Byte2 = 0;
                     i++;
                     if (i >= 59)
                         i = 0;
                 }
                 else
                 {
-                    lsb += 16;
+                    Byte2 += 16;
                     i++;
                 }
                 FirstLoop = false;
