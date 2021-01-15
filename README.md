@@ -45,40 +45,17 @@ One bit is added into Byte1 in every 16 minute. One hour is: Byte1 increased by 
 
 ### Two Solutions
 There is a two different solutions. 
-1. Mathemathical calculation based on octal numeric system. This was an initial solution.
-2. Using traditional shift-operations in binary numbers. 
+1. Traditional shift-operation with binary numbers. 
+2. Mathemathical calculation. This was an initial solution.
 
-#### 1. Mathemathical
-Reverse engineering found that the clock is based on the octal numeral system. If you look at the solution 2 then you will see that this is not true.
-Anyway, this is how I started. To understand all of the complexity I had to acquire the ability to calculate simultaneously in all four numeral systems.
-
-To solve this mathemathical clock challenge the first task was to build the clock generator.
-
-During the calculator building I realized that the solution is based on octal numeric system. Huhh, crazy thing. 
-Do you know what is Octal numeric system? The numbers are going up only to 7 and after that comes 10.
->Octal 0,1,2,3,4,5,6,7,10,11,12,13,14,15,16,17 ...
-
-Some time examples:
-* time 23:59 is in Octal 273 260 and in Hex 0xBB 0xB0.
-* time 8:00 is in Octal 100 and in Hex 0x08.
-* time 20:00 is in Otal 240 and in Hex 0xA0.
-
-The final solution is a geniusly simple as it has just two lines of code (hours and minutes) with a little mathematics. 
-
-```c#
-//getting minute and hour in mathemathical way
-int hour = Byte1 / 8;
-int minute = Byte1 % 8 * 16 + Byte2 / 16;
-```
-
-#### 2. Traditional binary shift operations
+#### 1. Traditional binary shift operations
 Look at the numbers in binary format. The clock is much simpler than it was at the beginning.
-Lets look it like 16bit number.
+Look at these 2 bytes as an one 16 bit number.
 
-* First 5 bits are representing hour.
-* The 6th bit is zero.
-* 7-12 bits are representing minutes.
-* 13-16 bits are zeros.
+* Bits 1-4 are always zeros.
+* Bits 5-10 is a minute.
+* Bit 11 is zero.
+* Bits 12-16 is a hour.
 
 |0000 |0000 | 0000 | 0000 |
 |-|-|-|-|
@@ -93,6 +70,30 @@ Getting hours and minutes by the traditional binary shift operations.
 //getting minute and hour with shift operations
 int tHour = Byte1 >> 3;
 int tMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
+```
+
+#### 2. Mathemathical
+Reverse engineering found that the clock was is easier to understand if using octal numeral system. 
+Anyway, this is how I started. To understand all of the complexity I had to acquire the ability to calculate simultaneously in all four numeral systems.
+
+To solve this mathemathical clock challenge the first task was to build the clock generator.
+
+Octal numeric system? Huhh, crazy thing. 
+Do you know what is Octal numeric system? The numbers are going up only to 7 and after that comes 10.
+>Octal 0,1,2,3,4,5,6,7,10,11,12,13,14,15,16,17 ...
+
+Some time examples:
+* time 23:59 is in Octal 273 260 and in Hex 0xBB 0xB0.
+* time 8:00 is in Octal 100 and in Hex 0x08.
+* time 20:00 is in Otal 240 and in Hex 0xA0.
+
+The final solution is a geniusly simple as it has just two lines of code (hours and minutes) with a little mathematics. 
+This solution is giving exactly same output as the first solution (which is better). 
+
+```c#
+//getting minute and hour in mathemathical way
+int hour = Byte1 / 8;
+int minute = Byte1 % 8 * 16 + Byte2 / 16;
 ```
 
 Output of this program.
