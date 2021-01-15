@@ -44,7 +44,7 @@ One bit is added into Byte1 in every 16 minute. One hour is: Byte1 increased by 
 | 23:59 | 10111011-10110000 |
 
 ### Two Solutions
-There is a two different solutions. 
+There are two different solutions. 
 1. Traditional shift-operation with binary numbers. 
 2. Mathemathical calculation. This was an initial solution.
 
@@ -53,9 +53,9 @@ Look at the numbers in binary format. The clock is much simpler than it was at t
 Look at these 2 bytes as an one 16 bit number.
 
 * Bits 1-4 are always zeros.
-* Bits 5-10 is a minute.
+* Bits 5-10 are minute.
 * Bit 11 is zero.
-* Bits 12-16 is a hour.
+* Bits 12-16 are hour.
 
 |0000 |0000 | 0000 | 0000 |
 |-|-|-|-|
@@ -70,6 +70,13 @@ Getting hours and minutes by the traditional binary shift operations.
 //getting minute and hour with shift operations
 int tHour = Byte1 >> 3;
 int tMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
+```
+Another way is to create one 16 bit number and then shift the clock from that number.
+```c#
+//creating one 16 bit number and then reading clock from that number
+int twoBytes = (Byte1 << 8) + Byte2;
+int tHour = twoBytes >> 11;
+int tMinute = (twoBytes & 0x3F0) >> 4;
 ```
 
 #### 2. Mathemathical

@@ -9,7 +9,7 @@ namespace OctalClockTwoBytes24h
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Octal clock reverse engineering used in Paradox Security Systems");
+            Console.WriteLine("Paradox Security System clock reverse engineering");
             OctalClock();
             Console.ReadLine();
         }
@@ -41,8 +41,13 @@ namespace OctalClockTwoBytes24h
                 int Byte1 = Convert.ToInt32(msb8.ToString(), 8); //convert from octal to decimal
 
                 //getting minute and hour with shift operations
-                int tHour = Byte1 >> 3;
-                int tMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
+                int bHour = Byte1 >> 3;
+                int bMinute = ((Byte1 & 2) + (Byte1 & 1) << 4) + (Byte2 >> 4);
+
+                //creating one 16 bit number and then reading clock from that number
+                int twoBytes = (Byte1 << 8) + Byte2;
+                int tHour = twoBytes >> 11;
+                int tMinute = (twoBytes & 0x3F0) >> 4;
 
                 //getting minute and hour in another mathemathical way
                 int hour = Byte1 / 8;
