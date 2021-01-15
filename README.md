@@ -13,7 +13,7 @@ Byte1 : Byte2 = 0000 0000 : 0000 0000
 1. Byte2 is increasing in every minute by 16 bit. <br>
 One way to show it is to use octal numeric system by adding 20 in every minute. (OCT) 00 20 40 60 100
 2. When Byte2 reach it's maximum (OCT) 360 then one bit is added to Byte1. <br>
-1 byte added into Byte1 in every 16 minute. One hour is: Byte1 increased by 3 bit and Byte2 increased by 176 bit.
+One bit is added into Byte1 in every 16 minute. One hour is: Byte1 increased by 3 bit and Byte2 increased by 176 bit.
 3. Every hour the Byte1 will increase by 8 bit or by 10 (OCT). (OCT) 0h - 0; 1h - 10; 2h - 20; .. 8h - 100.
 
 |Time|Byte1-Byte2|
