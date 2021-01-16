@@ -10,11 +10,20 @@ Byte1 : Byte2 = 0000 0000 : 0000 0000
 
 ### Algorithm
 
-1. Byte2 is increasing in every minute by 16 bit. <br>
-One way to show it is to use octal numeric system by adding 20 in every minute. (OCT) 00 20 40 60 100
-2. When Byte2 reach it's maximum (OCT) 360 then one bit is added to Byte1. <br>
-One bit is added into Byte1 in every 16 minute. One hour is: Byte1 increased by 3 bit and Byte2 increased by 176 bit.
-3. Every hour the Byte1 will increase by 8 bit or by 10 (OCT). (OCT) 0h - 0; 1h - 10; 2h - 20; .. 8h - 100.
+* Bits 1-4 are always zeros.
+* Bits 5-10 are minute.
+* Bit 11 is zero.
+* Bits 12-16 are hour.
+
+|0000 |0000 | 0000 | 0000 |
+|-|-|-|-|
+|HHHH |H0mm | mmmm | 0000 |
+
+Graphical view of this.
+
+<img src="Readme/binary_solution1.png" alt="drawing" width="200"/>
+
+Some examples
 
 |Time|Byte1-Byte2|
 |---|---|
@@ -49,23 +58,9 @@ There are two different solutions.
 2. Mathemathical calculation. This was an initial solution.
 
 #### 1. Traditional binary shift operations
-Look at the numbers in binary format. The clock is much simpler than it was at the beginning.
-Look at these 2 bytes as an one 16 bit number.
+Look at the numbers in binary format. The clock is very simple.
 
-* Bits 1-4 are always zeros.
-* Bits 5-10 are minute.
-* Bit 11 is zero.
-* Bits 12-16 are hour.
-
-|0000 |0000 | 0000 | 0000 |
-|-|-|-|-|
-|HHHH |H0mm | mmmm | 0000 |
-
-Graphical view of this.
-
-<img src="Readme/binary_solution1.png" alt="drawing" width="200"/>
-
-Getting hours and minutes by the traditional binary shift operations.
+Getting hours and minutes with traditional binary shift operations.
 ```c#
 //getting minute and hour with shift operations
 int tHour = Byte1 >> 3;
@@ -80,9 +75,15 @@ int tMinute = (twoBytes & 0x3F0) >> 4;
 ```
 
 #### 2. Mathemathical
-Reverse engineering found that the clock was is easier to understand if using octal numeral system. 
-Anyway, this is how I started. To understand all of the complexity I had to acquire the ability to calculate simultaneously in all four numeral systems.
+When I started to solve the problem, then I figured out following pattern.
+1. Byte2 is increasing in every minute by 16 bit. <br>
+One way to show it is to use octal numeric system by adding 20 in every minute. (OCT) 00 20 40 60 100
+2. When Byte2 reach it's maximum (OCT) 360 then one bit is added to Byte1. <br>
+One bit is added into Byte1 in every 16 minute. One hour is: Byte1 increased by 3 bit and Byte2 increased by 176 bit.
+3. Every hour the Byte1 will increase by 8 bit or by 10 (OCT). (OCT) 0h - 0; 1h - 10; 2h - 20; .. 8h - 100.
 
+Reverse engineering found that the clock was is easier to understand if using octal numeral system. 
+Anyway, this is how I started. 
 To solve this mathemathical clock challenge the first task was to build the clock generator.
 
 Octal numeric system? Huhh, crazy thing. 
@@ -95,7 +96,7 @@ Some time examples:
 * time 20:00 is in Otal 240 and in Hex 0xA0.
 
 The final solution is a geniusly simple as it has just two lines of code (hours and minutes) with a little mathematics. 
-This solution is giving exactly same output as the first solution (which is better). 
+This solution is giving exactly same output as the first solution but the first one is obviously better. 
 
 ```c#
 //getting minute and hour in mathemathical way
