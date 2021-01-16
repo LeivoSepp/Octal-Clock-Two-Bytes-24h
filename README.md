@@ -65,7 +65,9 @@ Getting hours and minutes with traditional binary shift operations.
 //getting minute and hour with shift operations
 int tHour = Byte1 >> 3;
 int tMinute = ((Byte1 & 3) << 4) + (Byte2 >> 4);
+string time = $"{(tHour < 10 ? $"0{tHour}" : $"{tHour}")}:{(tMinute < 10 ? $"0{tMinute}" : $"{tMinute}")}";
 ```
+
 Another way is to create one 16 bit number and then shift the clock from that number.
 ```c#
 //creating one 16 bit number and then reading clock from that number

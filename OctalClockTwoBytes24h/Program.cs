@@ -53,7 +53,9 @@ namespace OctalClockTwoBytes24h
                 int hour = Byte1 / 8;
                 int minute = Byte1 % 8 * 16 + Byte2 / 16;
 
-                Console.WriteLine($"| {(tHour < 10 ? $"0{tHour}" : $"{tHour}")}:{(tMinute < 10 ? $"0{tMinute}" : $"{tMinute}")} | {Convert.ToString(Byte1, 2).PadLeft(8, '0')}-{Convert.ToString(Byte2, 2).PadLeft(8, '0')} |");
+                string time = $"{(tHour < 10 ? $"0{tHour}" : $"{tHour}")}:{(tMinute < 10 ? $"0{tMinute}" : $"{tMinute}")}";
+
+                Console.WriteLine($"| {time} | {Convert.ToString(Byte1, 2).PadLeft(8, '0')}-{Convert.ToString(Byte2, 2).PadLeft(8, '0')} |");
 
                 if (Byte2 >= 240 || i >= 59)
                 {
